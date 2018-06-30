@@ -12,23 +12,28 @@ export default new Router({
     {
       path: '/goods',
       name: 'GoodsList',
-      component: GoodsList,
+      components:{
+        default:GoodsList,
+        title:Title,
+        image:Image,
+        cart:Cart
+      },
       children: [
         {
           path:'title',
-          name:'Title',
+          name:'Title',//命名路由
           component:Title
         },
         {
           path:'image',
-          name:'Image',
+          name:'Image',//命名路由
           component:Image
         }
       ],
     },
       {
-        path:'/cart',
-        name:'Cart',
+        path:'/cart/:cartId',
+        name:'Cart',//命名路由
         component:Cart
       }
   ]

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-state</title>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <h2>{{msg}}</h2>
+  <counter></counter>
+</div>
+    <script>
+      const counter={
+        template:
+          `
+          <div>{{count}}</div>
+        `,
+        //实时计算
+        computed:{
+          count(){
+            return this.$store.state.count;
+          }
+        }
+      };
+
+      //创建store
+      const  store=new Vuex.Store({
+          state:{
+            count:10
+          }
+      });
+        new Vue({
+          el:"#app",
+          store, //注册store到vue中
+          data:{
+            msg:"vuex study"
+          },
+          components:{
+            counter
+          }
+        })
+    </script>
+</body>
+</html>

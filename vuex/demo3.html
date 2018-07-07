@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue-x action</title>
+  <script src="../node_modules/vue/dist/vue.min.js"></script>
+  <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <h2>{{msg}}</h2>
+  <a href="javascript:;" @click="add">add</a>
+  <counter></counter>
+</div>
+<script>
+  const counter={
+    template:
+      `
+          <div>
+            <div>数量：{{count}}</div>
+            <div>名字：{{name}}</div>
+            <div>名字：{{userName}}</div>
+          </div>
+        `,
+    //实时计算
+    computed:{
+      count(){
+        return this.$store.state.count;
+      },
+      name(){
+        return this.$store.state.name;
+      },
+      //返回getters
+      userName(){
+        return this.$store.getters.userName;
+      }
+    }
+  };
+
+  //创建store
+  const  store=new Vuex.Store({
+    state:{
+      count:10,
+      name:'zhangChao'
+    },
+    //只能通过mutations改变state的值
+    mutations:{
+      increment(state,num){
+        state.count=num;
+      },
+      deIncrement(state){
+        state.count--;
+      },
+      updateName(state,username){
+        state.name=username;
+      }
+    },
+    //通过getters衍生新的状态
+    getters:{
+      userName(state){
+        return state.name+',hello';
+      }
+    },
+    //可以通过使用actions异步提交mutations
+    actions:{
+      incrementAction(context,num){
+        context.commit("increment",num)
+      }
+    }
+  });
+  new Vue({
+    el:"#app",
+    store, //注册store到vue中
+    data:{
+      msg:"vuex study"
+    },
+    methods:{
+      add(){
+        //通过转发提交操作到actions,用actions提交mutations
+        this.$store.dispatch("incrementAction",200);
+      },
+    },
+    components:{
+      counter
+    }
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vuex-mutations</title>
+  <script src="../node_modules/vue/dist/vue.min.js"></script>
+  <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <h2>{{msg}}</h2>
+  <a href="javascript:;" @click="add">add</a>
+  <a href="javascript:;" @click="minus">minus</a>
+  <counter></counter>
+</div>
+<script>
+  const counter={
+    template:
+      `
+          <div>
+            <div>数量：{{count}}</div>
+            <div>名字：{{name}}</div>
+          </div>
+        `,
+    //实时计算
+    computed:{
+      count(){
+        return this.$store.state.count;
+      },
+      name(){
+        return this.$store.state.name;
+      }
+    }
+  };
+
+  //创建store
+  const  store=new Vuex.Store({
+    state:{
+      count:10,
+      name:'zhangChao'
+    },
+    //只能通过mutations改变state的值
+    mutations:{
+      increment(state){
+        state.count++;
+      },
+      deIncrement(state){
+        state.count--;
+      },
+      updateName(state,username){
+        state.name=username;
+      }
+    },
+    getters:{
+
+    },
+    actions:{
+
+    }
+  });
+  new Vue({
+    el:"#app",
+    store, //注册store到vue中
+    data:{
+      msg:"vuex study"
+    },
+    methods:{
+      add(){
+        this.$store.commit('increment');
+        this.$store.commit('updateName','马云爸爸');
+      },
+      minus(){
+        this.$store.commit('deIncrement');
+      }
+    },
+    components:{
+      counter
+    }
+  })
+</script>
+</body>
+</html>
